@@ -6,6 +6,10 @@ var io = require("socket.io")(http);
 const users = {};
 
 io.on("connection", socket => {
+  socket.on("send image", image => {
+    users[socket.id] = image;
+    socket.broadcast.emit("user-connected", image);
+  });
   socket.on("new-user", name => {
     users[socket.id] = name;
     socket.broadcast.emit("user-connected", name);
@@ -21,9 +25,9 @@ io.on("connection", socket => {
     delete users[socket.id];
   });
 
-  /* socket.on("typing", data => {
+   socket.on("typing", data => {
     socket.broadcast.emit("typing", data);
-  }); */
+  }); 
 });
 /* skapa namn här */
 

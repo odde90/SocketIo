@@ -1,5 +1,3 @@
-/* import { connect } from "net"; */
-
 const baseURLGify = "http://api.giphy.com/v1/gifs/trending";
 const apiKeyGify = "9sP4qcJGp890dC9oKmNi7GqR5CEeyv3d";
 var socket = io();
@@ -10,125 +8,91 @@ const handle = document.getElementById("Handle");
 const feedback = document.getElementById("feedback");
 
 const name = prompt("What is your name?");
-appendMessage("You joined");
+appendMessage("You joined",false);
 socket.emit("new-user", name);
 
 socket.on("chat-message", data => {
-  appendMessage(`${data.name}: ${data.message}`);
+  appendMessage(`${data.name}: ${data.message}`,false);
 });
 
 socket.on("user-connected", name => {
-  appendMessage(`${name} connected`);
+  appendMessage(`${name} connected`,false);
 });
 
 socket.on("user-disconnected", name => {
-  appendMessage(`${name} disconnected`);
+  appendMessage(`${name} disconnected`,false);
 });
 
-$(function() {
-  $("form").submit(async function(e) {
-    e.preventDefault();
-    var test = $("#m").val();
-    if (test == "/gif") {
+socket.on("send image", function(msg) {
+  var object = JSON.parse(msg);
+  var messageContainer = document.getElementById('Messages-Container');
+  var image = document.createElement('img');
+  image.src = object.text;
+  
+  messageContainer.append(image)
+});
+
+
+messageForm.addEventListener("submit", e => {
+  e.preventDefault();
+
+  async function request() {
+
+    const message = messageInput.value;
+    if(message == '/gif'){
       try {
         let respons = await gifUrl();
         let imgUrl = await filterGifs(respons);
         console.log(imgUrl);
-        socket.emit("chat message", imgUrl);
+        socket.emit("send image", imgUrl);
       } catch (err) {
         console.error(err);
       }
-    } else {
-      console.log(false);
-      socket.emit("chat message", $("#m").val());
-    } /* :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-     else{
-      var texteinput = $("#m").val();
-      isImage = {
-        isimg: false,
-        text:  texteinput 
-      }
-      var message = JSON.stringify(isImage);
-      socket.emit( "chat message", message);
-  
+    }else{
+      appendMessage(`you: ${message}`,false);
+      socket.emit("send-chat-message", message); 
+      messageInput.value = "";
+    }
+  }
+  request();
 
-      $("#m").val("");
-      return false;
-    } ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
-  });
 });
 
-messageForm.addEventListener("submit", e => {
-  e.preventDefault();
-  const message = messageInput.value;
-  appendMessage(`you: ${message}`);
-  socket.emit("send-chat-message", message);
-  messageInput.value = "";
-});
-
-function appendMessage(message) {
-  const messageElement = document.createElement("div");
-  messageElement.innerText = message;
-  messageContainer.append(messageElement);
+function appendMessage(message, isimg) {
+  if(isimg == false) {
+    const messageElement = document.createElement("div");
+    messageElement.innerText = message;
+    messageContainer.append(messageElement);
+  }
 }
 
-/*  här är Jesper kod:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
- socket.on("chat message", function(msg) {
-    var object = JSON.parse(msg);
-    console.log(object);
-    if(object.isimg == true ){
-      var messageContainer = document.getElementById('messages');
-      var image = document.createElement('img');
-      image.src = object.text;
-      console.log(image)
-      messageContainer.append(image)
-      
-    }else{
-      console.log(false)
-      $("#messages").append(
-        $("<li>").text(object.text)
-      );
-    }
-  });
- */
-
-/* messageForm.addEventListener("keypress", function() {
-  socket.emit("typing", handle.value);
-});
-
-socket.on("typing", function(data) {
-  feedback.innerHTML = "<p><em>" + data + "is typing...</em></p>";
-}); ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
-
 function gifUrl() {
-  let url = new URL(baseURLGify);
+  let url = new URL(baseURLGify)
   url.search = new URLSearchParams({
     api_key: apiKeyGify
-  });
-  return makeRequest(url);
+  })
+  return makeRequest(url)
 }
 
 async function makeRequest(url) {
-  let respons = await fetch(url);
-  if (respons.status != 200) {
-  } else {
-    return await respons.json();
-  }
+    let respons = await fetch(url);
+    if(respons.status != 200){
+
+    }else{
+      return await respons.json();
+    }  
 }
 
 async function filterGifs(gifarray) {
   var gifList = [];
 
   gifarray.data.forEach(item => {
-    gifList.push(item.embed_url);
+     gifList.push(item.embed_url);
   });
 
   var rand = gifList[Math.floor(Math.random() * gifList.length)];
-  HEAD;
-  return rand;
+    isImage = {
+      text: rand 
+    }
+  return JSON.stringify(isImage)
 }
-isImage = {
-  isimg: true,
-  text: rand
-};
-/* return JSON.stringify(isImage); */
