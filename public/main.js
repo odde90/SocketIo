@@ -16,26 +16,36 @@ $(function() {
         console.error(err)
       }
     }else{
-      console.log(false)
-      socket.emit(
-        "chat message",
-        $("#m").val()
-        );
+      var texteinput = $("#m").val();
+      isImage = {
+        isimg: false,
+        text:  texteinput 
+      }
+      var message = JSON.stringify(isImage);
+      socket.emit( "chat message", message);
   
       $("#m").val("");
       return false;
     }
   });
 
-  socket.on(
-    "chat message",
-    function(msg) {
+  socket.on("chat message", function(msg) {
+    var object = JSON.parse(msg);
+    console.log(object);
+    if(object.isimg == true ){
+      var messageContainer = document.getElementById('messages');
+      var image = document.createElement('img');
+      image.src = object.text;
+      console.log(image)
+      messageContainer.append(image)
+      
+    }else{
+      console.log(false)
       $("#messages").append(
-        $("<li>").text(msg)
+        $("<li>").text(object.text)
       );
     }
-  );
-
+  });
 
 });
 
@@ -65,5 +75,9 @@ async function filterGifs(gifarray) {
   });
 
   var rand = gifList[Math.floor(Math.random() * gifList.length)];
-  return rand;
+    isImage = {
+      isimg: true,
+      text: rand 
+    }
+  return JSON.stringify(isImage);
 }
