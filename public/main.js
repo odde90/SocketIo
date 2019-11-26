@@ -41,10 +41,20 @@ $(function() {
     } else {
       console.log(false);
       socket.emit("chat message", $("#m").val());
+    } /* :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+     else{
+      var texteinput = $("#m").val();
+      isImage = {
+        isimg: false,
+        text:  texteinput 
+      }
+      var message = JSON.stringify(isImage);
+      socket.emit( "chat message", message);
+  
 
       $("#m").val("");
       return false;
-    }
+    } ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
   });
 });
 
@@ -62,13 +72,33 @@ function appendMessage(message) {
   messageContainer.append(messageElement);
 }
 
+/*  här är Jesper kod:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+ socket.on("chat message", function(msg) {
+    var object = JSON.parse(msg);
+    console.log(object);
+    if(object.isimg == true ){
+      var messageContainer = document.getElementById('messages');
+      var image = document.createElement('img');
+      image.src = object.text;
+      console.log(image)
+      messageContainer.append(image)
+      
+    }else{
+      console.log(false)
+      $("#messages").append(
+        $("<li>").text(object.text)
+      );
+    }
+  });
+ */
+
 /* messageForm.addEventListener("keypress", function() {
   socket.emit("typing", handle.value);
 });
 
 socket.on("typing", function(data) {
   feedback.innerHTML = "<p><em>" + data + "is typing...</em></p>";
-}); */
+}); ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
 
 function gifUrl() {
   let url = new URL(baseURLGify);
@@ -94,5 +124,11 @@ async function filterGifs(gifarray) {
   });
 
   var rand = gifList[Math.floor(Math.random() * gifList.length)];
+  HEAD;
   return rand;
 }
+isImage = {
+  isimg: true,
+  text: rand
+};
+/* return JSON.stringify(isImage); */
