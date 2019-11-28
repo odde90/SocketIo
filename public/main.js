@@ -8,38 +8,36 @@ const handle = document.getElementById("Handle");
 const feedback = document.getElementById("feedback");
 
 const name = prompt("What is your name?");
-appendMessage("You joined",false);
+appendMessage("You joined", false);
 socket.emit("new-user", name);
 
 socket.on("chat-message", data => {
-  appendMessage(`${data.name}: ${data.message}`,false);
+  appendMessage(`${name}: ${data.message}`, false);
 });
 
 socket.on("user-connected", name => {
-  appendMessage(`${name} connected`,false);
+  appendMessage(`${name} connected`, false);
 });
 
 socket.on("user-disconnected", name => {
-  appendMessage(`${name} disconnected`,false);
+  appendMessage(`${name} disconnected`, false);
 });
 
 socket.on("send image", function(msg) {
   var object = JSON.parse(msg);
-  var messageContainer = document.getElementById('Messages-Container');
-  var image = document.createElement('img');
+  var messageContainer = document.getElementById("Messages-Container");
+  var image = document.createElement("img");
   image.src = object.text;
-  
-  messageContainer.append(image)
-});
 
+  messageContainer.append(image);
+});
 
 messageForm.addEventListener("submit", e => {
   e.preventDefault();
 
   async function request() {
-
     const message = messageInput.value;
-    if(message == '/gif'){
+    if (message == "/gif") {
       try {
         let respons = await gifUrl();
         let imgUrl = await filterGifs(respons);
@@ -48,18 +46,17 @@ messageForm.addEventListener("submit", e => {
       } catch (err) {
         console.error(err);
       }
-    }else{
-      appendMessage(`you: ${message}`,false);
-      socket.emit("send-chat-message", message); 
+    } else {
+      appendMessage(`you: ${message}`, false);
+      socket.emit("send-chat-message", message);
       messageInput.value = "";
     }
   }
   request();
-
 });
 
 function appendMessage(message, isimg) {
-  if(isimg == false) {
+  if (isimg == false) {
     const messageElement = document.createElement("div");
     messageElement.innerText = message;
     messageContainer.append(messageElement);
@@ -67,32 +64,31 @@ function appendMessage(message, isimg) {
 }
 
 function gifUrl() {
-  let url = new URL(baseURLGify)
+  let url = new URL(baseURLGify);
   url.search = new URLSearchParams({
     api_key: apiKeyGify
-  })
-  return makeRequest(url)
+  });
+  return makeRequest(url);
 }
 
 async function makeRequest(url) {
-    let respons = await fetch(url);
-    if(respons.status != 200){
-
-    }else{
-      return await respons.json();
-    }  
+  let respons = await fetch(url);
+  if (respons.status != 200) {
+  } else {
+    return await respons.json();
+  }
 }
 
 async function filterGifs(gifarray) {
   var gifList = [];
 
   gifarray.data.forEach(item => {
-     gifList.push(item.embed_url);
+    gifList.push(item.embed_url);
   });
 
   var rand = gifList[Math.floor(Math.random() * gifList.length)];
-    isImage = {
-      text: rand 
-    }
-  return JSON.stringify(isImage)
+  isImage = {
+    text: rand
+  };
+  return JSON.stringify(isImage);
 }
