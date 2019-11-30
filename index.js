@@ -25,9 +25,20 @@ io.on("connection", socket => {
     delete users[socket.id];
   });
 
-   socket.on("typing", data => {
-    socket.broadcast.emit("typing", data);
-  }); 
+  //Someone is typing
+
+  socket.on("typing", data => {
+    socket.broadcast.emit("notifyTyping", {
+      user: data.user,
+      message: data.message
+    });
+  });
+
+  //when soemone stops typing
+
+  socket.on("stopTyping", () => {
+    socket.broadcast.emit("notifyStopTyping");
+  });
 });
 /* skapa namn här */
 
@@ -35,10 +46,6 @@ app.get("/", function(req, res) {
   res.sendFile(__dirname + "/index.html");
 });
 app.use(express.static(__dirname + "/public")); // This will emit the event to all connected socket */
-
-/* socket.on("disconnect", function() {
-  console.log("user disconnected");
-}); */
 
 /* io.emit("some event", {
   someProperty: "some value",

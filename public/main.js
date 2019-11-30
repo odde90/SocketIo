@@ -6,6 +6,7 @@ const messageContainer = document.getElementById("Messages-Container");
 const messageInput = document.getElementById("message-input");
 const handle = document.getElementById("Handle");
 const feedback = document.getElementById("feedback");
+const typing = document.getElementById("typing");
 
 const name = prompt("What is your name?");
 appendMessage("You joined", false);
@@ -23,8 +24,25 @@ socket.on("user-disconnected", name => {
   appendMessage(`${name} disconnected`, false);
 });
 
-socket.on("send image", function(msg) {
-  var object = JSON.parse(msg);
+//isTyping event
+messageInput.addEventListener("keypress", () => {
+  socket.emit("typing", { user: "Someone", message: "is typing..." });
+});
+socket.on("notifyTyping", data => {
+  typing.innerText = "";
+  typing.innerText = data.user + "  " + data.message;
+  console.log(data.user + data.message);
+});
+//stop typing
+messageInput.addEventListener("keyup", () => {
+  socket.emit("StopTyping", "");
+});
+socket.on("notifyStopTyping", () => {
+  typing.value = "";
+});
+
+socket.on("send image", function(messageInput) {
+  var object = JSON.parse(messageInput);
   var messageContainer = document.getElementById("Messages-Container");
   var image = document.createElement("img");
   image.src = object.text;
