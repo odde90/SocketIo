@@ -69,6 +69,7 @@ messageForm.addEventListener("submit", e => {
         console.error(err);
       }
     }
+
     if( message == "/chuck"){
        let quat = await makeRequest(chuckBaseUrl);
        let quotes = await filterchuck(quat);
@@ -127,3 +128,20 @@ async function filterGifs(gifarray) {
 async function filterchuck(data){
   return data.value
 }
+
+
+
+/* 
+$( document ).ready(function() {
+  
+  $( "#message-input" ).change(function() {
+    console.log($('#message-input').val())
+   if($('#message-input').val == '/'){
+     console.log('chuck')
+   }else{
+     console.log(false)
+   }
+  });
+ 
+});
+ */
