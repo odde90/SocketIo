@@ -1,5 +1,6 @@
 const baseURLGify = "http://api.giphy.com/v1/gifs/trending";
 const apiKeyGify = "9sP4qcJGp890dC9oKmNi7GqR5CEeyv3d";
+const chuckBaseUrl = 'https://api.chucknorris.io/jokes/random';
 var socket = io();
 const messageForm = document.getElementById("send-container");
 const messageContainer = document.getElementById("Messages-Container");
@@ -28,6 +29,7 @@ socket.on("user-disconnected", name => {
 messageInput.addEventListener("keypress", () => {
   socket.emit("typing", { user: "Someone", message: "is typing..." });
 });
+
 socket.on("notifyTyping", data => {
   typing.innerText = "";
   typing.innerText = data.user + "  " + data.message;
@@ -37,6 +39,7 @@ socket.on("notifyTyping", data => {
 messageInput.addEventListener("keyup", () => {
   socket.emit("StopTyping", "");
 });
+
 socket.on("notifyStopTyping", () => {
   typing.value = "";
 });
@@ -55,6 +58,7 @@ messageForm.addEventListener("submit", e => {
 
   async function request() {
     const message = messageInput.value;
+    
     if (message == "/gif") {
       try {
         let respons = await gifUrl();
@@ -64,7 +68,15 @@ messageForm.addEventListener("submit", e => {
       } catch (err) {
         console.error(err);
       }
-    } else {
+    }
+    if( message == "/chuck"){
+       let quat = await makeRequest(chuckBaseUrl);
+       let quotes = await filterchuck(quat);
+       appendMessage(`you: ${quotes}`, false);
+       socket.emit("send-chat-message", quotes);
+       messageInput.value = "";
+    }
+    else {
       appendMessage(`you: ${message}`, false);
       socket.emit("send-chat-message", message);
       messageInput.value = "";
@@ -109,4 +121,9 @@ async function filterGifs(gifarray) {
     text: rand
   };
   return JSON.stringify(isImage);
+}
+
+
+async function filterchuck(data){
+  return data.value
 }
