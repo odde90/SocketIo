@@ -138,23 +138,30 @@ async function filterchuck(data){
   return data.value
 }
 
-
-
-
 $( document ).ready(function() {
   $('#message-input').on('input',function(e){
+    console.log($('#message-input').val())
+    
+ 
      if($('#message-input').val() == '/'){
-       var sugests = ['gif','chuck'];
-       var sugsetholder = document.getElementById('sugest');
-       sugests.forEach(element => {
+          var sugests = ['gif','chuck'];
+          var sugsetholder = document.getElementById('sugest');
+          sugests.forEach(element => {
           var sugs = document.createElement('p');
           sugs.innerText = element;
           sugsetholder.append(sugs);
-       });
-       console.log(sugests)
-
-      
-     } 
+      });
+       console.log($('#message-input').val())
+      }  
+      if($('#message-input').val() == '/g'){
+        console.log("working")
+        messageInput.innerHTML = '/gif';
+      }
+      if($('#message-input').val() == '/c'){
+        console.log("working")
+        console.log(messageInput)
+        messageInput.innerHTML = '/chuck';
+      }
   });
 });
 
