@@ -5,6 +5,10 @@
 }
 body {
   font: 13px Helvetica, Arial;
+  color: gray;
+  font-size: 70%;
+  margin: 5px;
+  text-align: center;
 }
 form {
   background: #000;
