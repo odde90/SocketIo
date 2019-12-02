@@ -62,8 +62,8 @@ messageForm.addEventListener("submit", e => {
 
   async function request() {
     const message = messageInput.value;
-    
     if (message == "/gif") {
+      messageInput.value = "";
       try {
         let respons = await gifUrl();
         let imgUrl = await filterGifs(respons);
@@ -72,10 +72,8 @@ messageForm.addEventListener("submit", e => {
        socket.emit("send-image", imgUrl);
       } catch (err) {
         console.error(err);
-        messageInput.value = "";
       }
     }
-
     if( message == "/chuck"){
        let quat = await makeRequest(chuckBaseUrl);
        let quotes = await filterchuck(quat);
@@ -99,9 +97,10 @@ function appendMessage(message, isimg) {
     messageContainer.append(messageElement);
   }
   if (isimg == true) {
-    const messageElement = document.createElement("img");
-    messageElement.src = message;
-    messageContainer.append(messageElement);
+    const messageimage = document.createElement("img");
+    messageimage.classList.add('gif-wrapper')
+    messageimage.src = message;
+    messageContainer.append(messageimage);
   }
 }
 
