@@ -64,10 +64,11 @@ messageForm.addEventListener("submit", e => {
       try {
         let respons = await gifUrl();
         let imgUrl = await filterGifs(respons);
-        console.log(imgUrl);
-        socket.emit("send image", imgUrl);
+        appendMessage( imgUrl, true);
+        socket.emit("send-chat-message", imgUrl);
       } catch (err) {
         console.error(err);
+        messageInput.value = "";
       }
     }
 
@@ -93,6 +94,11 @@ function appendMessage(message, isimg) {
     messageElement.innerText = message;
     messageContainer.append(messageElement);
   }
+  if (isimg == true) {
+    const messageElement = document.createElement("img");
+    messageElement.src = message;
+    messageContainer.append(messageElement);
+  }
 }
 
 function gifUrl() {
@@ -112,17 +118,16 @@ async function makeRequest(url) {
 }
 
 async function filterGifs(gifarray) {
+  console.log(gifarray)
   var gifList = [];
 
   gifarray.data.forEach(item => {
-    gifList.push(item.embed_url);
+    gifList.push(item.images.preview_gif.url);
   });
 
   var rand = gifList[Math.floor(Math.random() * gifList.length)];
-  isImage = {
-    text: rand
-  };
-  return JSON.stringify(isImage);
+  console.log(rand)
+  return rand;
 }
 
 
