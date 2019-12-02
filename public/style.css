@@ -11,13 +11,13 @@ body {
   text-align: center;
 }
 form {
-  background: #000;
   padding: 3px;
   position: fixed;
   bottom: 0;
   width: 100%;
-  border: 10px solid #02f137;
   left: 0px;
+  background: #d3d3d3;
+  padding: 10px;
 }
 form input {
   border: 0;
@@ -48,4 +48,12 @@ form button {
 }
 .stronger-sugest{
   font-weight: bolder;
+}
+.sugestion-box{
+ width: 20%;
+}
+.sugestion-box > p{
+ color: black;
+  font-weight: bolder;
+  padding: 5px; 
 }
