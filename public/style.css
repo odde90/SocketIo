@@ -46,6 +46,6 @@ form button {
   width: 250px;
   height: 200px;
 }
-/* .sugestion-box{
- 
-} */
+.stronger-sugest{
+  font-weight: bolder;
+}

@@ -141,25 +141,33 @@ async function filterchuck(data){
 $( document ).ready(function() {
   $('#message-input').on('input',function(e){
     console.log($('#message-input').val())
-    
+      var tesk = 0
  
      if($('#message-input').val() == '/'){
           var sugests = ['gif','chuck'];
           var sugsetholder = document.getElementById('sugest');
+          sugsetholder.innerHTML = '';
           sugests.forEach(element => {
-          var sugs = document.createElement('p');
-          sugs.innerText = element;
-          sugsetholder.append(sugs);
+            tesk++;
+            var sugs = document.createElement('p');
+            sugs.setAttribute("id", tesk);
+            sugs.innerText = element;
+            sugsetholder.append(sugs);
       });
        console.log($('#message-input').val())
       }  
       if($('#message-input').val() == '/g'){
-        console.log("working")
+        var gif = document.getElementById('1');
+        var chuck = document.getElementById('2');
+        gif.classList.add('stronger-sugest');
+        chuck.classList.remove("stronger-sugest");
         messageInput.innerHTML = '/gif';
       }
       if($('#message-input').val() == '/c'){
-        console.log("working")
-        console.log(messageInput)
+        var gif = document.getElementById('1');
+        var chuck = document.getElementById('2');
+        gif.classList.remove("stronger-sugest");
+        chuck.classList.add('stronger-sugest');
         messageInput.innerHTML = '/chuck';
       }
   });
