@@ -140,17 +140,21 @@ async function filterchuck(data){
 
 
 
-/* 
+
 $( document ).ready(function() {
-  
-  $( "#message-input" ).change(function() {
-    console.log($('#message-input').val())
-   if($('#message-input').val == '/'){
-     console.log('chuck')
-   }else{
-     console.log(false)
-   }
+  $('#message-input').on('input',function(e){
+     if($('#message-input').val() == '/'){
+       var sugests = ['gif','chuck'];
+       var sugsetholder = document.getElementById('sugest');
+       sugests.forEach(element => {
+          var sugs = document.createElement('p');
+          sugs.innerText = element;
+          sugsetholder.append(sugs);
+       });
+       console.log(sugests)
+
+      
+     } 
   });
- 
 });
- */
+
