@@ -13,6 +13,7 @@ form {
   bottom: 0;
   width: 100%;
   border: 10px solid #02f137;
+  left: 0px;
 }
 form input {
   border: 0;

@@ -8,7 +8,7 @@ const users = {};
 io.on("connection", socket => {
   socket.on("send image", image => {
     users[socket.id] = image;
-    socket.broadcast.emit("user-connected", image);
+    socket.broadcast.emit("image received", image);
   });
   socket.on("new-user", name => {
     users[socket.id] = name;

@@ -34,14 +34,15 @@ socket.on("notifyTyping", data => {
   console.log(data.user + data.message);
 });
 //stop typing
-messageInput.addEventListener("keyup", () => {
-  socket.emit("StopTyping", "");
+messageInput.addEventListener("change", evt => {
+  socket.emit("stopTyping", "");
 });
 socket.on("notifyStopTyping", () => {
-  typing.value = "";
+  console.log("Heeej");
+  typing.innerText = "";
 });
 
-socket.on("send image", function(messageInput) {
+socket.on("image received", function(messageInput) {
   var object = JSON.parse(messageInput);
   var messageContainer = document.getElementById("Messages-Container");
   var image = document.createElement("img");
