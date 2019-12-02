@@ -6,9 +6,10 @@ var io = require("socket.io")(http);
 const users = {};
 
 io.on("connection", socket => {
-  socket.on("send image", image => {
-    users[socket.id] = image;
-    socket.broadcast.emit("image received", image);
+  socket.on("send-image", image => {
+    console.log(image)
+    //users[socket.id] = image;
+    socket.broadcast.emit("image-received", image);
   });
   socket.on("new-user", name => {
     users[socket.id] = name;

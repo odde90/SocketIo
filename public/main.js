@@ -16,6 +16,9 @@ socket.emit("new-user", name);
 socket.on("chat-message", data => {
   appendMessage(`${name}: ${data.message}`, false);
 });
+socket.on("image-received", image =>{
+    appendMessage(image, true);
+});
 
 socket.on("user-connected", name => {
   appendMessage(`${name} connected`, false);
@@ -65,7 +68,8 @@ messageForm.addEventListener("submit", e => {
         let respons = await gifUrl();
         let imgUrl = await filterGifs(respons);
         appendMessage( imgUrl, true);
-        socket.emit("send-chat-message", imgUrl);
+       // socket.emit("send-chat-message", imgUrl,imageistrue);
+       socket.emit("send-image", imgUrl);
       } catch (err) {
         console.error(err);
         messageInput.value = "";
