@@ -7,7 +7,6 @@ const users = {};
 
 io.on("connection", socket => {
   socket.on("send-image", image => {
-    console.log(image)
     //users[socket.id] = image;
     socket.broadcast.emit("image-received", image);
   });
