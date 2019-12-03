@@ -51,9 +51,10 @@ form button {
 }
 .sugestion-box{
  width: 20%;
+ background-color: #ffffff;
+ margin-bottom: 5px;
 }
 .sugestion-box > p{
  color: black;
- 
   padding: 5px; 
 }

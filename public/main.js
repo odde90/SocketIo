@@ -161,14 +161,16 @@ $( document ).ready(function() {
         var chuck = document.getElementById('2');
         gif.classList.add('stronger-sugest');
         chuck.classList.remove("stronger-sugest");
-        messageInput.innerHTML = '/gif';
       }
       if($('#message-input').val() == '/c'){
         var gif = document.getElementById('1');
         var chuck = document.getElementById('2');
         gif.classList.remove("stronger-sugest");
         chuck.classList.add('stronger-sugest');
-        messageInput.innerHTML = '/chuck';
+      }
+      if($('#message-input').val() == ''){
+        var sugsetholder = document.getElementById('sugest');
+        sugsetholder.innerHTML = '';
       }
   });
 });
