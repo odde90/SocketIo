@@ -78,7 +78,7 @@ messageForm.addEventListener("submit", e => {
     if( message == "/chuck"){
        let quat = await makeRequest(chuckBaseUrl);
        let quotes = await filterchuck(quat);
-       appendMessage(`${quotes}:you`, false , 'you');
+       appendMessage(`${quotes} :you`, false , 'you');
        data = {
         message: quotes,
         name: name
@@ -88,7 +88,7 @@ messageForm.addEventListener("submit", e => {
        messageInput.value = "";
     }
     else {
-      appendMessage(`${message}:you`, false, 'you');
+      appendMessage(`${message} :you`, false, 'you');
       data = {
         message: message,
         name: name
@@ -116,6 +116,7 @@ function appendMessage(message, isimg, whereClass) {
     }
     bugfix.append(messageimage)
     messageContainer.append(bugfix);
+    scrolldown();
   }
   if(isimg == false && g == false ) {
     const messageElement = document.createElement("div");
@@ -127,6 +128,7 @@ function appendMessage(message, isimg, whereClass) {
     messageElement.classList.add('clearfix');
     messageElement.append(messageText);
     messageContainer.append(messageElement);
+    scrolldown();
   }
 }
 
@@ -202,10 +204,16 @@ $( document ).ready(function() {
   });
 });
 
-window.setInterval(function() {
+function scrolldown() {
   var elem = document.getElementById('Messages-Container');
   elem.scrollTop = elem.scrollHeight;
-}, 100);
+}
+/* window.setInterval(function() {
+  var elem = document.getElementById('Messages-Container');
+  elem.scrollTop = elem.scrollHeight;
+  console.log(elem.scrollTop)
+  console.log(elem.scrollHeight)
+}, 100); */
 
 function closeAlertBox() {
   var enter = document.getElementById('nicknamevalue').value;
