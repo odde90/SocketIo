@@ -58,3 +58,19 @@ form button {
  color: black;
   padding: 5px; 
 }
+.you {
+float: right;
+}
+.notyou {
+  float: left;
+}
+.clearfix:before,
+.clearfix:after {
+   content: " ";
+   /* 1 */
+   display: table;
+   /* 2 */
+}
+.clearfix:after {
+   clear: both;
+}
