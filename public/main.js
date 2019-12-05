@@ -15,6 +15,7 @@ socket.emit("new-user", name);
 
 socket.on("chat-message", data => {
   appendMessage(`${name}: ${data.message}`, false);
+  console.log(`${name}: ${data.message}`)
 });
 socket.on("image-received", image =>{
     appendMessage(image, true);
@@ -68,7 +69,6 @@ messageForm.addEventListener("submit", e => {
         let respons = await gifUrl();
         let imgUrl = await filterGifs(respons);
         appendMessage( imgUrl, true);
-       // socket.emit("send-chat-message", imgUrl,imageistrue);
        socket.emit("send-image", imgUrl);
       } catch (err) {
         console.error(err);
@@ -140,7 +140,6 @@ async function filterchuck(data){
 
 $( document ).ready(function() {
   $('#message-input').on('input',function(e){
-    console.log($('#message-input').val())
       var tesk = 0
  
      if($('#message-input').val() == '/'){
@@ -154,7 +153,6 @@ $( document ).ready(function() {
             sugs.innerText = element;
             sugsetholder.append(sugs);
       });
-       console.log($('#message-input').val())
       }  
       if($('#message-input').val() == '/g'){
         var gif = document.getElementById('1');
