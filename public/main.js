@@ -152,7 +152,6 @@ function emptysugbox() {
   sugsetholder.innerHTML = '';
 } 
 
-
 $( document ).ready(function() {
   $('#message-input').on('input',function(e){
       var tesk = 0
