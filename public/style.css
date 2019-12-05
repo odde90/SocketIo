@@ -87,6 +87,7 @@ form button {
 }
 .you{
   float: right;
+  margin-left: auto;
 }
 .notyou{
   float: left;

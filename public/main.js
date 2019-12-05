@@ -107,12 +107,15 @@ function appendMessage(message, isimg, whereClass) {
   var g = message.includes("/gif");
   if (isimg == true) {
     const messageimage = document.createElement("img");
+    const bugfix  = document.createElement("div");
     messageimage.classList.add('gif-wrapper')
     messageimage.src = message;
     if(whereClass != null ){
       messageimage.classList.add(whereClass);
+      bugfix.classList.add('clearfix');
     }
-    messageContainer.append(messageimage);
+    bugfix.append(messageimage)
+    messageContainer.append(bugfix);
   }
   if(isimg == false && g == false ) {
     const messageElement = document.createElement("div");
@@ -125,7 +128,6 @@ function appendMessage(message, isimg, whereClass) {
     messageElement.append(messageText);
     messageContainer.append(messageElement);
   }
-  
 }
 
 function gifUrl() {
