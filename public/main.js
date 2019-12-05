@@ -68,8 +68,8 @@ messageForm.addEventListener("submit", e => {
         let respons = await gifUrl();
         let imgUrl = await filterGifs(respons);
         appendMessage( imgUrl, true, 'you');
-       socket.emit("send-image", imgUrl);
-       emptysugbox();
+        socket.emit("send-image", imgUrl);
+        emptysugbox();
       } catch (err) {
         console.error(err);
       }
@@ -101,9 +101,19 @@ messageForm.addEventListener("submit", e => {
   request();
 });
 
+
+
 function appendMessage(message, isimg, whereClass) {
-  console.log(whereClass);
-  if (isimg == false) {
+  if (isimg == true) {
+    const messageimage = document.createElement("img");
+    messageimage.classList.add('gif-wrapper')
+    messageimage.src = message;
+    if(whereClass != null ){
+      messageimage.classList.add(whereClass);
+    }
+    messageContainer.append(messageimage);
+  }
+  if(isimg == false) {
     const messageElement = document.createElement("div");
     const messageText = document.createElement("p");
     messageText.innerText = message;
@@ -114,17 +124,7 @@ function appendMessage(message, isimg, whereClass) {
     messageElement.append(messageText);
     messageContainer.append(messageElement);
   }
-  if (isimg == true) {
-    const messageElement = document.createElement("div");
-    const messageimage = document.createElement("img");
-    messageimage.classList.add('gif-wrapper')
-    messageimage.src = message;
-    if(whereClass != null ){
-      messageimage.classList.add(whereClass);
-    }
-    messageElement.classList.add('clearfix');
-    messageContainer.append(messageimage);
-  }
+  
 }
 
 function gifUrl() {
