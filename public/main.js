@@ -14,10 +14,10 @@ appendMessage("You joined", false);
 socket.emit("new-user", name);
 
 socket.on("chat-message", data => {
-  appendMessage(`${data.name}: ${data.message}`, false);
+  appendMessage(`${data.name}: ${data.message}`, false , 'notyou');
 });
 socket.on("image-received", image =>{
-    appendMessage(image, true);
+    appendMessage(image, true, 'notyou');
 });
 
 socket.on("user-connected", name => {
@@ -67,48 +67,64 @@ messageForm.addEventListener("submit", e => {
       try {
         let respons = await gifUrl();
         let imgUrl = await filterGifs(respons);
-        appendMessage( imgUrl, true);
-       socket.emit("send-image", imgUrl);
+        appendMessage( imgUrl, true, 'you');
+        socket.emit("send-image", imgUrl);
+        emptysugbox();
       } catch (err) {
         console.error(err);
       }
+      
     }
     if( message == "/chuck"){
        let quat = await makeRequest(chuckBaseUrl);
        let quotes = await filterchuck(quat);
-       appendMessage(`you: ${quotes}`, false);
+       appendMessage(`you: ${quotes}`, false , 'you');
        data = {
         message: quotes,
         name: name
       }
        socket.emit("send-chat-message", data);
+       emptysugbox();
        messageInput.value = "";
     }
     else {
-      appendMessage(`you: ${message}`, false);
+      appendMessage(`${message}:you`, false, 'you');
       data = {
         message: message,
         name: name
       }
       socket.emit("send-chat-message", data);
       messageInput.value = "";
+      emptysugbox();
     }
   }
   request();
 });
 
-function appendMessage(message, isimg) {
-  if (isimg == false) {
-    const messageElement = document.createElement("div");
-    messageElement.innerText = message;
-    messageContainer.append(messageElement);
-  }
+
+
+function appendMessage(message, isimg, whereClass) {
   if (isimg == true) {
     const messageimage = document.createElement("img");
     messageimage.classList.add('gif-wrapper')
     messageimage.src = message;
+    if(whereClass != null ){
+      messageimage.classList.add(whereClass);
+    }
     messageContainer.append(messageimage);
   }
+  if(isimg == false) {
+    const messageElement = document.createElement("div");
+    const messageText = document.createElement("p");
+    messageText.innerText = message;
+    if(whereClass != null ){
+      messageText.classList.add(whereClass);
+    }
+    messageElement.classList.add('clearfix');
+    messageElement.append(messageText);
+    messageContainer.append(messageElement);
+  }
+  
 }
 
 function gifUrl() {
@@ -142,6 +158,11 @@ async function filterGifs(gifarray) {
 async function filterchuck(data){
   return data.value
 }
+
+function emptysugbox() {
+  var sugsetholder = document.getElementById('sugest');
+  sugsetholder.innerHTML = '';
+} 
 
 $( document ).ready(function() {
   $('#message-input').on('input',function(e){
