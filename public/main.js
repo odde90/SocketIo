@@ -69,9 +69,11 @@ messageForm.addEventListener("submit", e => {
         let imgUrl = await filterGifs(respons);
         appendMessage( imgUrl, true);
        socket.emit("send-image", imgUrl);
+       emptysugbox();
       } catch (err) {
         console.error(err);
       }
+      
     }
     if( message == "/chuck"){
        let quat = await makeRequest(chuckBaseUrl);
@@ -82,6 +84,7 @@ messageForm.addEventListener("submit", e => {
         name: name
       }
        socket.emit("send-chat-message", data);
+       emptysugbox();
        messageInput.value = "";
     }
     else {
@@ -92,6 +95,7 @@ messageForm.addEventListener("submit", e => {
       }
       socket.emit("send-chat-message", data);
       messageInput.value = "";
+      emptysugbox();
     }
   }
   request();
@@ -142,6 +146,12 @@ async function filterGifs(gifarray) {
 async function filterchuck(data){
   return data.value
 }
+
+function emptysugbox() {
+  var sugsetholder = document.getElementById('sugest');
+  sugsetholder.innerHTML = '';
+} 
+
 
 $( document ).ready(function() {
   $('#message-input').on('input',function(e){
