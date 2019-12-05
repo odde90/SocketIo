@@ -1,4 +1,4 @@
-const baseURLGify = "http://api.giphy.com/v1/gifs/trending";
+const baseURLGify = "http://api.giphy.com/v1/gifs/search";
 const apiKeyGify = "9sP4qcJGp890dC9oKmNi7GqR5CEeyv3d";
 const chuckBaseUrl = 'https://api.chucknorris.io/jokes/random';
 var socket = io();
@@ -9,13 +9,10 @@ const handle = document.getElementById("Handle");
 const feedback = document.getElementById("feedback");
 const typing = document.getElementById("typing");
 
-/* const name = prompt("What is your name?");
-appendMessage("You joined", false);
-socket.emit("new-user", name); */
-
 socket.on("chat-message", data => {
   appendMessage(`${data.name}: ${data.message}`, false , 'notyou');
 });
+
 socket.on("image-received", image =>{
     appendMessage(image, true, 'notyou');
 });
@@ -53,7 +50,6 @@ socket.on("image received", function(messageInput) {
   var messageContainer = document.getElementById("Messages-Container");
   var image = document.createElement("img");
   image.src = object.text;
-
   messageContainer.append(image);
 });
 
@@ -62,12 +58,13 @@ messageForm.addEventListener("submit", e => {
 
   async function request() {
     const message = messageInput.value;
-    
-    if (message == "/gif") {
+    var f = message.includes("/gif->");
+    if (f == true) {
       messageInput.value = "";
-
+      var searchTerm = message.replace('/gif->', '');
       try {
-        let respons = await gifUrl();
+        
+        let respons = await gifUrl(searchTerm);
         let imgUrl = await filterGifs(respons);
         appendMessage( imgUrl, true, 'you');
         socket.emit("send-image", imgUrl);
@@ -77,7 +74,7 @@ messageForm.addEventListener("submit", e => {
       }
       
     }
-    if( message == "/chuck"){
+    if( message == "/chuck" && f == false){
        let quat = await makeRequest(chuckBaseUrl);
        let quotes = await filterchuck(quat);
        appendMessage(`${quotes} :you`, false , 'you');
@@ -134,11 +131,13 @@ function appendMessage(message, isimg, whereClass) {
   }
 }
 
-function gifUrl() {
+function gifUrl(term) {
   let url = new URL(baseURLGify);
   url.search = new URLSearchParams({
+    q: term,
     api_key: apiKeyGify
   });
+  console.log(url)
   return makeRequest(url);
 }
 
@@ -176,7 +175,7 @@ $( document ).ready(function() {
       var tesk = 0
  
      if($('#message-input').val() == '/'){
-          var sugests = ['gif','chuck'];
+          var sugests = ['/gif-> [search]','chuck'];
           var sugsetholder = document.getElementById('sugest');
           sugsetholder.innerHTML = '';
           sugests.forEach(element => {
@@ -210,12 +209,6 @@ function scrolldown() {
   var elem = document.getElementById('Messages-Container');
   elem.scrollTop = elem.scrollHeight;
 }
-/* window.setInterval(function() {
-  var elem = document.getElementById('Messages-Container');
-  elem.scrollTop = elem.scrollHeight;
-  console.log(elem.scrollTop)
-  console.log(elem.scrollHeight)
-}, 100); */
 
 function closeAlertBox() {
   var enter = document.getElementById('nicknamevalue').value;
