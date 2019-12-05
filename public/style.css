@@ -52,6 +52,10 @@ form button {
 #messages li:nth-child(odd) {
   background: #eee;
 }
+p{
+  font-size: 16px;
+  padding: 10px;
+}
 .gif-wrapper {
   width: 250px;
   height: 200px;
