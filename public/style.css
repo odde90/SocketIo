@@ -85,3 +85,19 @@ form button {
   min-width: 50%;
   min-height: 50%;
 }
+.you{
+  float: right;
+}
+.notyou{
+  float: left;
+}
+.clearfix:before,
+.clearfix:after {
+   content: " ";
+   /* 1 */
+   display: table;
+   /* 2 */
+}
+.clearfix:after {
+   clear: both;
+}

@@ -78,7 +78,7 @@ messageForm.addEventListener("submit", e => {
     if( message == "/chuck"){
        let quat = await makeRequest(chuckBaseUrl);
        let quotes = await filterchuck(quat);
-       appendMessage(`you: ${quotes}`, false , 'you');
+       appendMessage(`${quotes}:you`, false , 'you');
        data = {
         message: quotes,
         name: name
@@ -104,6 +104,7 @@ messageForm.addEventListener("submit", e => {
 
 
 function appendMessage(message, isimg, whereClass) {
+  var g = message.includes("/gif");
   if (isimg == true) {
     const messageimage = document.createElement("img");
     messageimage.classList.add('gif-wrapper')
@@ -113,7 +114,7 @@ function appendMessage(message, isimg, whereClass) {
     }
     messageContainer.append(messageimage);
   }
-  if(isimg == false) {
+  if(isimg == false && g == false ) {
     const messageElement = document.createElement("div");
     const messageText = document.createElement("p");
     messageText.innerText = message;
