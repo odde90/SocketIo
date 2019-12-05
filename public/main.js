@@ -9,9 +9,9 @@ const handle = document.getElementById("Handle");
 const feedback = document.getElementById("feedback");
 const typing = document.getElementById("typing");
 
-const name = prompt("What is your name?");
+/* const name = prompt("What is your name?");
 appendMessage("You joined", false);
-socket.emit("new-user", name);
+socket.emit("new-user", name); */
 
 socket.on("chat-message", data => {
   appendMessage(`${data.name}: ${data.message}`, false , 'notyou');
@@ -202,3 +202,49 @@ $( document ).ready(function() {
   });
 });
 
+function closeAlertBox() {
+  var enter = document.getElementById('nicknamevalue').value;
+  if(enter != ''){
+    alertBox = document.getElementById("alertBox");
+    alertClose = document.getElementById("alertClose");
+    alertBox.parentNode.removeChild(alertBox);
+    alertClose.parentNode.removeChild(alertClose);
+  }
+}
+
+window.alert = function (msg) {
+  var id = "alertBox", alertBox, closeId = "alertClose", alertClose;
+  alertBox = document.createElement('div');
+  alertBoxText = document.createElement("p");
+  alertBoxInput = document.createElement("input");
+  alertBoxButton = document.createElement("button");
+
+  alertBox.id = id;
+  alertBoxText.innerHTML = msg;
+  alertBoxButton.innerHTML = 'Enter';
+
+  alertBoxInput.id = 'nicknamevalue';
+  alertBoxButton.id = 'enternickname';
+  alertBoxButton.onclick = function() {
+    var enter = document.getElementById('nicknamevalue').value;
+    if(enter != ''){
+      name = enter;
+      closeAlertBox();
+      appendMessage("You joined", false);
+      socket.emit("new-user", name);
+    }
+  }
+
+  alertBoxButton.classList.add('init-box-button');
+  alertBoxInput.classList.add('init-box-input');
+  alertBoxInput.classList.add('init-box');
+  alertBox.append(alertBoxText);
+  alertBox.append(alertBoxInput);
+  alertBox.append(alertBoxButton);
+  document.body.appendChild(alertBox);
+
+  alertClose = document.createElement("div");
+  alertClose.id = closeId;
+  document.body.appendChild(alertClose);
+  alertClose.onclick = closeAlertBox;
+};
