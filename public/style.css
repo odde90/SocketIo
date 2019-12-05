@@ -27,6 +27,7 @@ form {
   left: 0px;
   background: #d3d3d3;
   padding: 10px;
+  opacity: 0.5;
 }
 form input {
   border: 0;
