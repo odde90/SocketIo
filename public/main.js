@@ -62,8 +62,10 @@ messageForm.addEventListener("submit", e => {
 
   async function request() {
     const message = messageInput.value;
+    
     if (message == "/gif") {
       messageInput.value = "";
+
       try {
         let respons = await gifUrl();
         let imgUrl = await filterGifs(respons);
