@@ -14,10 +14,10 @@ io.on("connection", socket => {
     users[socket.id] = name;
     socket.broadcast.emit("user-connected", name);
   });
-  socket.on("send-chat-message", message => {
+  socket.on("send-chat-message",(data) => {
     socket.broadcast.emit("chat-message", {
-      message: message,
-      name: [socket.id]
+      message: data.message,
+      name: data.name
     });
   });
   socket.on("disconnect", () => {

@@ -14,8 +14,7 @@ appendMessage("You joined", false);
 socket.emit("new-user", name);
 
 socket.on("chat-message", data => {
-  appendMessage(`${name}: ${data.message}`, false);
-  console.log(`${name}: ${data.message}`)
+  appendMessage(`${data.name}: ${data.message}`, false);
 });
 socket.on("image-received", image =>{
     appendMessage(image, true);
@@ -78,12 +77,20 @@ messageForm.addEventListener("submit", e => {
        let quat = await makeRequest(chuckBaseUrl);
        let quotes = await filterchuck(quat);
        appendMessage(`you: ${quotes}`, false);
-       socket.emit("send-chat-message", quotes);
+       data = {
+        message: quotes,
+        name: name
+      }
+       socket.emit("send-chat-message", data);
        messageInput.value = "";
     }
     else {
       appendMessage(`you: ${message}`, false);
-      socket.emit("send-chat-message", message);
+      data = {
+        message: message,
+        name: name
+      }
+      socket.emit("send-chat-message", data);
       messageInput.value = "";
     }
   }
@@ -121,7 +128,6 @@ async function makeRequest(url) {
 }
 
 async function filterGifs(gifarray) {
-  console.log(gifarray)
   var gifList = [];
 
   gifarray.data.forEach(item => {
@@ -129,7 +135,6 @@ async function filterGifs(gifarray) {
   });
 
   var rand = gifList[Math.floor(Math.random() * gifList.length)];
-  console.log(rand)
   return rand;
 }
 
