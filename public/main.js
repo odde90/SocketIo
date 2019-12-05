@@ -202,6 +202,11 @@ $( document ).ready(function() {
   });
 });
 
+window.setInterval(function() {
+  var elem = document.getElementById('Messages-Container');
+  elem.scrollTop = elem.scrollHeight;
+}, 100);
+
 function closeAlertBox() {
   var enter = document.getElementById('nicknamevalue').value;
   if(enter != ''){
