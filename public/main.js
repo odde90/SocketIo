@@ -235,9 +235,9 @@ window.alert = function (msg) {
     }
   }
 
+  alertBoxText.classList.add('init-box-text');
   alertBoxButton.classList.add('init-box-button');
   alertBoxInput.classList.add('init-box-input');
-  alertBoxInput.classList.add('init-box');
   alertBox.append(alertBoxText);
   alertBox.append(alertBoxInput);
   alertBox.append(alertBoxButton);
