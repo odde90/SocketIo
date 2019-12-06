@@ -35,10 +35,7 @@ socket.on("notifyTyping", data => {
   typing.innerText = "";
   typing.innerText = data.user + "  " + data.message;
 });
-//stop typing
-messageInput.addEventListener("change", evt => {
-  socket.emit("stopTyping", "");
-});
+
 
 socket.on("notifyStopTyping", () => {
   typing.innerText = "";
@@ -224,6 +221,7 @@ $( document ).ready(function() {
       if($('#message-input').val() == ''){
         var sugsetholder = document.getElementById('sugest');
         sugsetholder.innerHTML = '';
+        socket.emit("stopTyping", "");
       }
   });
 });
