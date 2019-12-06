@@ -63,6 +63,7 @@ messageForm.addEventListener("submit", e => {
     
     if (f == true) {
       messageInput.value = "";
+      
       var searchTerm = message.replace('/gif ', '');
       try {
         
@@ -103,7 +104,6 @@ messageForm.addEventListener("submit", e => {
   }
   request();
 });
-
 
 
 function appendMessage(message, isimg, whereClass) {
@@ -193,12 +193,33 @@ $( document ).ready(function() {
       if($('#message-input').val() == '/g'){
         var gif = document.getElementById('1');
         var chuck = document.getElementById('2');
+       
+        $('input').keydown( function(e) {
+          var key = e.charCode ? e.charCode : e.keyCode ? e.keyCode : 0;
+          if(key == 13) {
+              if($('#message-input').val() == '/g' || $('#message-input').val() == '/gi'){
+                e.preventDefault();
+                messageInput.value = '/gif ';
+              }
+          }
+        });
+
         gif.classList.add('stronger-sugest');
         chuck.classList.remove("stronger-sugest");
       }
       if($('#message-input').val() == '/c'){
         var gif = document.getElementById('1');
         var chuck = document.getElementById('2');
+      
+        $('input').keydown( function(e) {
+          var key = e.charCode ? e.charCode : e.keyCode ? e.keyCode : 0;
+          if(key == 13) {
+              if($('#message-input').val() == '/c' || $('#message-input').val() == '/ch' || $('#message-input').val() == '/chu' ||  $('#message-input').val() == '/chuc'){
+                e.preventDefault();
+                messageInput.value = '/chuck';
+              }
+          }
+        });
         gif.classList.remove("stronger-sugest");
         chuck.classList.add('stronger-sugest');
       }
@@ -237,6 +258,18 @@ window.alert = function (msg) {
 
   alertBoxInput.id = 'nicknamevalue';
   alertBoxButton.id = 'enternickname';
+  alertBox.addEventListener("keydown", function (e) {
+        var enter = document.getElementById('nicknamevalue').value;
+
+    if (e.keyCode === 13) { 
+      if(enter != ''){
+        name = enter;
+        closeAlertBox();
+        appendMessage("You joined", false);
+        socket.emit("new-user", name);
+      }
+    }
+});
   alertBoxButton.onclick = function() {
     var enter = document.getElementById('nicknamevalue').value;
     if(enter != ''){
