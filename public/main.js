@@ -67,6 +67,7 @@ messageForm.addEventListener("submit", e => {
         appendMessage( imgUrl, true, 'you');
         socket.emit("send-image", imgUrl);
         emptysugbox();
+        stoptyper();
       } catch (err) {
         console.error(err);
       }
@@ -83,6 +84,7 @@ messageForm.addEventListener("submit", e => {
        socket.emit("send-chat-message", data);
        emptysugbox();
        messageInput.value = "";
+       stoptyper();
     }
     else {
       if(message != ''){
@@ -94,6 +96,7 @@ messageForm.addEventListener("submit", e => {
         socket.emit("send-chat-message", data);
         messageInput.value = "";
         emptysugbox();
+        stoptyper();
       }
     }
   }
@@ -225,7 +228,9 @@ $( document ).ready(function() {
       }
   });
 });
-
+function stoptyper() {
+  socket.emit("stopTyping", "");
+}
 function scrolldown() {
   var elem = document.getElementById('Messages-Container');
   elem.scrollTop = elem.scrollHeight;
