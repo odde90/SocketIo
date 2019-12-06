@@ -59,11 +59,11 @@ messageForm.addEventListener("submit", e => {
 
   async function request() {
     const message = messageInput.value;
-    var f = message.includes("/gif->");
+    var f = message.includes("/gif");
     
     if (f == true) {
       messageInput.value = "";
-      var searchTerm = message.replace('/gif->', '');
+      var searchTerm = message.replace('/gif ', '');
       try {
         
         let respons = await gifUrl(searchTerm);
@@ -179,7 +179,7 @@ $( document ).ready(function() {
       var tesk = 0
  
      if($('#message-input').val() == '/'){
-          var sugests = ['gif-> [search]','chuck'];
+          var sugests = ['gif [search]','chuck'];
           var sugsetholder = document.getElementById('sugest');
           sugsetholder.innerHTML = '';
           sugests.forEach(element => {
