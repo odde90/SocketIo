@@ -179,7 +179,7 @@ $( document ).ready(function() {
       var tesk = 0
  
      if($('#message-input').val() == '/'){
-          var sugests = ['/gif-> [search]','chuck'];
+          var sugests = ['gif-> [search]','chuck'];
           var sugsetholder = document.getElementById('sugest');
           sugsetholder.innerHTML = '';
           sugests.forEach(element => {
