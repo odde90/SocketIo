@@ -34,7 +34,6 @@ messageInput.addEventListener("keypress", () => {
 socket.on("notifyTyping", data => {
   typing.innerText = "";
   typing.innerText = data.user + "  " + data.message;
-  console.log(data.user + data.message);
 });
 //stop typing
 messageInput.addEventListener("change", evt => {
@@ -42,7 +41,6 @@ messageInput.addEventListener("change", evt => {
 });
 
 socket.on("notifyStopTyping", () => {
-  console.log("Heeej");
   typing.innerText = "";
 });
 
@@ -141,7 +139,7 @@ function gifUrl(term) {
     q: term,
     api_key: apiKeyGify
   });
-  console.log(url)
+  
   return makeRequest(url);
 }
 
