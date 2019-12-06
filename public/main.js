@@ -9,6 +9,7 @@ const handle = document.getElementById("Handle");
 const feedback = document.getElementById("feedback");
 const typing = document.getElementById("typing");
 
+
 socket.on("chat-message", data => {
   appendMessage(`${data.name}: ${data.message}`, false , 'notyou');
 });
@@ -59,6 +60,7 @@ messageForm.addEventListener("submit", e => {
   async function request() {
     const message = messageInput.value;
     var f = message.includes("/gif->");
+    
     if (f == true) {
       messageInput.value = "";
       var searchTerm = message.replace('/gif->', '');
@@ -87,14 +89,16 @@ messageForm.addEventListener("submit", e => {
        messageInput.value = "";
     }
     else {
-      appendMessage(`${message} :you`, false, 'you');
-      data = {
-        message: message,
-        name: name
+      if(message != ''){
+        appendMessage(`${message} :you`, false, 'you');
+        data = {
+          message: message,
+          name: name
+        }
+        socket.emit("send-chat-message", data);
+        messageInput.value = "";
+        emptysugbox();
       }
-      socket.emit("send-chat-message", data);
-      messageInput.value = "";
-      emptysugbox();
     }
   }
   request();
